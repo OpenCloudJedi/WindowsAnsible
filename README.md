@@ -8,6 +8,8 @@ $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
 (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
 
 powershell.exe -ExecutionPolicy ByPass -File $file
+
+
 3. Once Complete, check the listener and verify it is listening and on what IP address you can connect together on. You will need to add this IP address to your /etc/hosts file so your machine can connect to the Windows machine by name. Here is an example output:
 Listener
     Address = *
