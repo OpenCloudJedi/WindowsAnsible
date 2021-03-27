@@ -34,7 +34,9 @@ Listener
 ffff:ffff:fffe%2, fe80::203d:7d97:c2ed:ec78%3, fe80::e8ea:d765:2c69:7756%7
 
 As you can see from this example, you would add the ip 192.168.56.155 to the /etc/hosts file on the control node.
+
 sudo vim /etc/hosts
+
 192.168.56.155 <name_chosen>
 
 Make sure any name or names of your windows nodes are added to your inventory so it will properly deploy.
