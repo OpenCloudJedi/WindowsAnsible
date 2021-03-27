@@ -1,0 +1,74 @@
+---
+- name: Use package manager in Winders
+  hosts: all
+  tasks:
+    - name: Chocolatey goodness
+      win_chocolatey:
+        name: "{{ item }}"
+        state: present
+      loop: 
+        - git
+        - Firefox
+        - adobereader
+        - googlechrome
+        - jre8
+        - notepadplusplus.install
+        - vlc
+        - python3
+        - powershell
+        - sysinternals
+        - putty.install
+        - teamviewer
+        - filezilla
+        - nmap
+        - curl
+        - wget
+        - zoom
+        - rdtabs
+        - atom
+        - wireshark
+        - virtualbox
+        - vagrant
+        - slack
+        - openoffice
+
+    - name: Install updates
+      win_updates:
+        category_names:
+          - CriticalUpdates
+          - SecurityUpdates
+        state: installed
+      register: update_result
+
+    - name: Reboot host if required
+      win_reboot:
+      when: update_result.reboot_required
+
+#    - name: Run a multiple shell commands
+#      win_shell: |
+#        New-Item -Path C:\temp -ItemType Directory
+#        Remove-Item -Path C:\temp -Force -Recurse
+#        $path_info = Get-Item -Path C:\temp
+#        $path_info.FullName
+        
+#          win_scheduled_task:
+#    name: adhoc-task
+#    username: SYSTEM
+#    actions:
+#    - path: PowerShell.exe
+#      arguments: |
+#        Start-Sleep -Seconds 30  # This isn't required, just here as a demonstration
+#        New-Item -Path C:\temp\test -ItemType Directory
+#    # Remove this action if the task shouldn't be deleted on completion
+#    - path: cmd.exe
+#      arguments: /c schtasks.exe /Delete /TN "adhoc-task" /F
+#    triggers:
+#    - type: registration
+#
+#- name: Wait for the scheduled task to complete
+#  win_scheduled_task_stat:
+#    name: adhoc-task
+#  register: task_stat
+#  until: (task_stat.state is defined and task_stat.state.status != "TASK_STATE_RUNNING") or (task_stat.task_exists == False)
+#  retries: 12
+#  delay: 10
