@@ -40,3 +40,5 @@ sudo vim /etc/hosts
 192.168.56.155 <name_chosen>
 
 Make sure any name or names of your windows nodes are added to your inventory so it will properly deploy.
+
+4. It may also be needed to adjust the firewall settings. The script you run on the nodes starts the listener and creates some firewall rules. I had to set the network interface to use the private firewall policy profile to gain connectivity to the windows hosts. 
