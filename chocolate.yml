@@ -1,6 +1,6 @@
 ---
 - name: Use package manager in Windows
-  hosts: all
+  hosts: windows
   tasks:
     - name: Chocolatey goodness (Install all the things)
       win_chocolatey:
@@ -37,12 +37,22 @@
         category_names:
           - CriticalUpdates
           - SecurityUpdates
+          - UpdateRollups
         state: installed
       register: update_result
 
     - name: Reboot host if required
       win_reboot:
       when: update_result.reboot_required
+
+    - name: Add shortcut icons
+      win_copy:
+        src: files/icons/{{ item }}
+        dest: '%Public%\Pictures\{{ item }}'
+      with_items:
+      - git.ico
+      - rca.ico
+      tags: icons
 
     - name: Add default desktop shortcuts
       win_shortcut:
@@ -66,7 +76,7 @@
             dest: '%student%\Desktop\CloudAcademy.lnk'
             icon: '%student%\Pictures\rca.ico,0'
             windowstyle: maximized
-    tags: shortcuts
+      tags: shortcuts
 #    - name: Run a multiple shell commands
 #      win_shell: |
 #        New-Item -Path C:\temp -ItemType Directory
