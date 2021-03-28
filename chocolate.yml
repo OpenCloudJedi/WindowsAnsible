@@ -1,12 +1,12 @@
 ---
-- name: Use package manager in Winders
+- name: Use package manager in Windows
   hosts: all
   tasks:
-    - name: Chocolatey goodness
+    - name: Chocolatey goodness (Install all the things)
       win_chocolatey:
         name: "{{ item }}"
         state: present
-      loop: 
+      loop:
         - git
         - Firefox
         - adobereader
@@ -44,13 +44,36 @@
       win_reboot:
       when: update_result.reboot_required
 
+    - name: Add default desktop shortcuts
+      win_shortcut:
+         description: '{{ item.description }}'
+         src: '{{ ansible_env["ProgramFiles(x86)"] if "ProgramFiles(x86)" in ansible_env else ansible_env.ProgramFiles }}\Google\Chrome\Application\chrome.exe'
+         arguments: '--new-window {{ item.url }} {{ item.arguments|default("") }}'
+         dest: '{{ item.dest }}'
+         icon: '{{ item.icon | default(",0") }}'
+         windowstyle: '{{ item.windowstyle | default("normal") }}'
+         hotkey: '{{ item.hotkey | default(omit) }}'
+         state: present
+      with_items:
+          - description: Coby's github page
+             url: http://github.com/OpenCloudJedi
+             dest: '%student%\Desktop\github.lnk'
+             icon: '%student%\Pictures\git.ico,0'
+             windowstyle: maximized
+#      arguments: --start-fullscreen
+          - description: Cloud Academy website
+            url: https://my.opencloudacademy.com
+            dest: '%student%\Desktop\CloudAcademy.lnk'
+            icon: '%student%\Pictures\rca.ico,0'
+            windowstyle: maximized
+    tags: shortcuts
 #    - name: Run a multiple shell commands
 #      win_shell: |
 #        New-Item -Path C:\temp -ItemType Directory
 #        Remove-Item -Path C:\temp -Force -Recurse
 #        $path_info = Get-Item -Path C:\temp
 #        $path_info.FullName
-        
+
 #          win_scheduled_task:
 #    name: adhoc-task
 #    username: SYSTEM
