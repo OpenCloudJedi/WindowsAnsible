@@ -31,6 +31,10 @@
         - vagrant
         - slack
         - openoffice
+        - wsl-ubuntu-2004
+        #- wsl-kalilinux
+        - awstools.powershell
+        - cygwin
 
     - name: Install updates
       win_updates:
