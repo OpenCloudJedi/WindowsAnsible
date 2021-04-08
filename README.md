@@ -2,12 +2,10 @@
 This script is designed to be run on a new machine running Windows 10 latest release. In order to prep this machine for use with Ansible, the WinRM Listener needs to be configured on the Windows node. We also will require a local Administrator account for Ansible to perform it's magic. I have setup a student user with the password student for this deployment. WinRM setup can be accomplished with the following steps:
 1. Open PowerShell as an Administrator
 2. Run the following commands:
->   $url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
->   $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
-
->   (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
-
->   powershell.exe -ExecutionPolicy ByPass -File $file
+>     $url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+>     $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+>     (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+>     powershell.exe -ExecutionPolicy ByPass -File $file
 
 3. Once Complete, check the listener and verify it is listening and on what IP address you can connect together on. 
 >     winrm enumerate winrm/config/Listener
