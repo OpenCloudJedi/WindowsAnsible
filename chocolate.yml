@@ -18,24 +18,47 @@
         - powershell
         - sysinternals
         - putty.install
-        - teamviewer
         - filezilla
         - nmap
-        - curl
-        - wget
-        - zoom
         - rdtabs
         - atom
         - wireshark
+        - openoffice
+        - awstools.powershell
+        - cygwin
+
+          
+    - name: Install internet tools
+      win_chocolatey:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - slack
+        - wget
+        - zoom
+        - curl
+      tags: tools
+
+    - name: Install vagrant and virtualbox
+      win_chocolatey:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - teamviewer
         - virtualbox
         - vagrant
-        - slack
-        - openoffice
+        - vagrant-desktop
+      tags: virt
+
+    - name: Install wsl2 and wsl-ubuntu-2004
+      win_chocolatey:
+        name: "{{ item }}"
+        state: present
+      loop:
         - wsl2
         - wsl-ubuntu-2004
         #- wsl-kalilinux
-        - awstools.powershell
-        - cygwin
+      tags: wsl
 
     - name: Install updates
       win_updates:
@@ -45,10 +68,16 @@
           - UpdateRollups
         state: installed
       register: update_result
+      tags: updates
 
     - name: Reboot host if required
       win_reboot:
       when: update_result.reboot_required
+
+    - name: Disable Hyper v windows feature
+      win_feature:
+        name: Hyper-V
+        state: absent
 
     - name: Add shortcut icons
       win_copy:
