@@ -1,6 +1,7 @@
 ---
 - name: Use package manager in Windows
   hosts: windows
+  gather_facts: false
   tasks:
     - name: Chocolatey goodness (Install all the things)
       win_chocolatey:
