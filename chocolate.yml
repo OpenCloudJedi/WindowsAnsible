@@ -27,6 +27,7 @@
         - openoffice
         - awstools.powershell
         - cygwin
+        - golang
 
           
     - name: Install internet tools
