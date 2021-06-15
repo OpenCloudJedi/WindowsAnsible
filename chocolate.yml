@@ -1,6 +1,6 @@
 ---
 - name: Use package manager in Windows
-  hosts: windows
+  hosts: windows4
   gather_facts: false
   tasks:
     - name: Chocolatey goodness (Install all the things)
@@ -49,18 +49,7 @@
         - teamviewer
         - virtualbox
         - vagrant
-        - vagrant-desktop
       tags: virt
-
-    - name: Install wsl2 and wsl-ubuntu-2004
-      win_chocolatey:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - wsl2
-        - wsl-ubuntu-2004
-        #- wsl-kalilinux
-      tags: wsl
 
     - name: Install updates
       win_updates:
@@ -76,68 +65,3 @@
       win_reboot:
       when: update_result.reboot_required
 
-    - name: Disable Hyper v windows feature
-      win_feature:
-        name: Hyper-V
-        state: absent
-
-    - name: Add shortcut icons
-      win_copy:
-        src: files/icons/{{ item }}
-        dest: '%Public%\Pictures\{{ item }}'
-      with_items:
-      - git.ico
-      - rca.ico
-      tags: icons
-
-    - name: Add default desktop shortcuts
-      win_shortcut:
-         description: '{{ item.description }}'
-         src: '{{ ansible_env["ProgramFiles(x86)"] if "ProgramFiles(x86)" in ansible_env else ansible_env.ProgramFiles }}\Google\Chrome\Application\chrome.exe'
-         arguments: '--new-window {{ item.url }} {{ item.arguments|default("") }}'
-         dest: '{{ item.dest }}'
-         icon: '{{ item.icon | default(",0") }}'
-         windowstyle: '{{ item.windowstyle | default("normal") }}'
-         hotkey: '{{ item.hotkey | default(omit) }}'
-         state: present
-      with_items:
-          - description: Coby's github page
-             url: http://github.com/OpenCloudJedi
-             dest: '%student%\Desktop\github.lnk'
-             icon: '%student%\Pictures\git.ico,0'
-             windowstyle: maximized
-#      arguments: --start-fullscreen
-          - description: Cloud Academy website
-            url: https://my.opencloudacademy.com
-            dest: '%student%\Desktop\CloudAcademy.lnk'
-            icon: '%student%\Pictures\rca.ico,0'
-            windowstyle: maximized
-      tags: shortcuts
-#    - name: Run a multiple shell commands
-#      win_shell: |
-#        New-Item -Path C:\temp -ItemType Directory
-#        Remove-Item -Path C:\temp -Force -Recurse
-#        $path_info = Get-Item -Path C:\temp
-#        $path_info.FullName
-
-#          win_scheduled_task:
-#    name: adhoc-task
-#    username: SYSTEM
-#    actions:
-#    - path: PowerShell.exe
-#      arguments: |
-#        Start-Sleep -Seconds 30  # This isn't required, just here as a demonstration
-#        New-Item -Path C:\temp\test -ItemType Directory
-#    # Remove this action if the task shouldn't be deleted on completion
-#    - path: cmd.exe
-#      arguments: /c schtasks.exe /Delete /TN "adhoc-task" /F
-#    triggers:
-#    - type: registration
-#
-#- name: Wait for the scheduled task to complete
-#  win_scheduled_task_stat:
-#    name: adhoc-task
-#  register: task_stat
-#  until: (task_stat.state is defined and task_stat.state.status != "TASK_STATE_RUNNING") or (task_stat.task_exists == False)
-#  retries: 12
-#  delay: 10

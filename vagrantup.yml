@@ -1,0 +1,16 @@
+---
+- name: Do vagrant up via powershell
+  hosts: windows4
+  become: true
+  become_user: student
+  become_method: runas
+  tasks:
+    - name: powershell
+      win_shell: vagrant up
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\Environment-main
+
+    - name: output
+      debug: 
+        var: vagrant_out

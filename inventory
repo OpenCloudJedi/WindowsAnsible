@@ -1,5 +1,10 @@
 [windows]
+<<<<<<< HEAD
+windows3
+windows4
+=======
 lappy
+>>>>>>> c08d51dff0b9f5ed8f7fd72bf60f3ee293a94d39
 [windows:vars]
 ansible_user=student
 ansible_password=student
@@ -8,3 +13,8 @@ ansible_winrm_transport=basic
 ansible_port=5986
 ansible_winrm_scheme=https
 ansible_winrm_server_cert_validation=ignore
+<<<<<<< HEAD
+no_proxy='*'
+ansible_python_interpreter=c:\Python\python
+=======
+>>>>>>> c08d51dff0b9f5ed8f7fd72bf60f3ee293a94d39
