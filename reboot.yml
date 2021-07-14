@@ -1,0 +1,13 @@
+---
+- name: reboot all hosts
+  hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Reboot host if required
+      win_reboot:
+    - name: Send completion message
+      say:
+        msg: The Machines have all rebooted. Awaiting further instructions.
+        voice: Fred
+      delegate_to: localhost
+      tags: always

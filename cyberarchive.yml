@@ -1,0 +1,24 @@
+---
+- name: creates environment
+  hosts: windows
+  tasks:
+    - name: create bin directory
+      win_file:
+        path: C:\Users\student\bin
+        state: directory
+
+    - name: Get zip from github
+      win_get_url:
+        url: https://github.com/OpenCloudJedi/CyberEnvironment/archive/refs/heads/main.zip
+        dest: C:\Users\student\bin
+
+    - name: wait for file to exist
+      win_wait_for:
+        path: C:\Users\student\bin\main.zip
+        state: present
+
+    - name: please unzip
+      win_unzip:
+        src: C:\Users\student\bin\main.zip
+        dest: C:\Users\student\bin\
+        delete_archive: yes

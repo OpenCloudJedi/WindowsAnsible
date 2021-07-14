@@ -1,11 +1,11 @@
 ---
 - name: Do vagrant up via powershell
-  hosts: windows4
+  hosts: windows
   become: true
   become_user: student
   become_method: runas
   tasks:
-    - name: powershell
+    - name: powershell bring online Environment and suspend
       win_shell: vagrant up
       register: vagrant_out
       args:
@@ -14,3 +14,76 @@
     - name: output
       debug: 
         var: vagrant_out
+
+    - name: powershell Environment destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_suspend
+      args:
+        chdir: C:\Users\student\bin\Environment-main
+
+    - name: powershell bring up Ubuntu machine
+      win_shell: vagrant up
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\Ubuntu
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: powershell vagrant destroy Ubuntu machine
+      win_shell: vagrant destroy -f
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\Ubuntu
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: powershell bring up Mint machine
+      win_shell: vagrant up
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\Mint
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: powershell vagrant destroy Mint machine
+      win_shell: vagrant destroy -f
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\Mint
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: powershall bring up Fedora machine
+      win_shell: vagrant up
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\FedoraKDE
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: powershell vagrant destroy Ubuntu machine
+      win_shell: vagrant destroy -f
+      register: vagrant_out
+      args:
+        chdir: C:\Users\student\bin\LinuxPlus-main\FedoraKDE
+
+    - name: output from Linux+
+      debug: 
+        var: vagrant_out
+
+    - name: Send completion message
+      say:
+        msg: The sysadmin environment build is complete. I am now free to do more work. Let me speak with your manager. 
+        voice: Karen
+      delegate_to: localhost
+      tags: always

@@ -1,0 +1,4 @@
+---
+- import_playbook: chocolate.yml
+- import_playbook: extension.yml
+- import_playbook: cyberarchive.yml

@@ -1,0 +1,135 @@
+---
+- name: Do vagrant up via powershell
+  hosts: windows
+  become: true
+  become_user: student
+  become_method: runas
+  ignore_errors: true
+  tasks:
+    - name: powershell Kali Environment
+      win_shell: vagrant up
+      register: vagrant_out_Kali
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Kali
+      tags: kali
+
+    - name: output
+      debug: 
+        var: vagrant_out_Kali
+      tags: kali
+
+    - name: powershell Kali Environment destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_out_Kali_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Kali
+      tags: kali
+
+    - name: output
+      debug: 
+        var: vagrant_out_Kali_suspend
+      tags: kali
+
+
+    - name: powershell Ubuntu Environment
+      win_shell: vagrant up
+      register: vagrant_out_Ubuntu
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Ubuntu
+      tags: ubuntu
+
+    - name: output
+      debug: 
+        var: vagrant_out_Ubuntu
+      tags: ubuntu
+
+    - name: powershell Ubuntu Environment Destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_out_Ubuntu_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Ubuntu
+      tags: ubuntu
+
+    - name: output
+      debug: 
+        var: vagrant_out_Ubuntu_suspend
+      tags: ubuntu
+
+    - name: powershell Windows10 Environment
+      win_shell: vagrant up
+      register: vagrant_out_Windows10
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Windows10
+      tags: win10
+
+    - name: output
+      debug: 
+        var: vagrant_out_Windows10
+      tags: win10
+
+    - name: powershell Windows10 Environment Destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_out_Windows10_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\Windows10
+      tags: win10
+
+    - name: output
+      debug: 
+        var: vagrant_out_Windows10_suspend
+      tags: win10
+
+    - name: powershell WindowsServer_2019
+      win_shell: vagrant up
+      register: vagrant_out_WindowsServer_2019
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\WindowsServer_2019
+      tags: win2019
+
+    - name: output
+      debug: 
+        var: vagrant_out_WindowsServer_2019
+      tags: win2019
+
+    - name: powershell WindowsServer_2019 Suspend
+      win_shell: vagrant destroy -f
+      register: vagrant_out_WindowsServer_2019_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\WindowsServer_2019
+      tags: win2019
+
+    - name: output
+      debug: 
+        var: vagrant_out_WindowsServer_2019_suspend
+      tags: win2019
+
+    - name: powershell ParrotOS Environment
+      win_shell: vagrant up
+      register: vagrant_out_ParrotOS
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\ParrotOS
+      tags: parrot
+
+    - name: output
+      debug: 
+        var: vagrant_out_ParrotOS
+      tags: parrot
+
+    - name: powershell ParrotOS Environment Destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_out_ParrotOS_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\ParrotOS
+      tags: parrot
+
+    - name: output
+      debug: 
+        var: vagrant_out_ParrotOS_suspend
+      tags: parrot
+
+    - name: Send completion message
+      say:
+        msg: The cyber environment build is complete. I am now free to do more work.
+        voice: Karen
+      delegate_to: localhost
+      tags: always

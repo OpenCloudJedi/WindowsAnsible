@@ -1,0 +1,16 @@
+---
+- name: destroy the parrot machine
+  hosts: windows
+  become: true
+  become_user: student
+  become_method: runas
+  tasks:
+    - name: powershell ParrotOS Environment Destroy
+      win_shell: vagrant destroy -f
+      register: vagrant_out_ParrotOS_suspend
+      args:
+        chdir: C:\Users\student\bin\CyberEnvironment-main\ParrotOS
+
+    - name: output
+      debug: 
+        var: vagrant_out_ParrotOS_suspend

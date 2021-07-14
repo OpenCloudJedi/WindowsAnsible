@@ -1,6 +1,6 @@
 ---
 - name: install vbox extension pack
-  hosts: windows4
+  hosts: windows
   become: true
   become_user: SYSTEM
   become_method: runas
@@ -9,9 +9,3 @@
       win_get_url:
         url: https://download.virtualbox.org/virtualbox/6.1.22/Oracle_VM_VirtualBox_Extension_Pack-6.1.22.vbox-extpack
         dest: C:\Users\student\
-        #   - name: run extension exe    
-        #win_shell: ./Oracle_VM_VirtualBox_Extension_Pack-6.1.22.vbox-extpack ; /install
-        #args:
-        #chdir: C:\Users\student
-
-

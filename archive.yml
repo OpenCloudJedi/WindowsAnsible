@@ -1,6 +1,6 @@
 ---
 - name: creates environment
-  hosts: windows4
+  hosts: windows
   tasks:
     - name: create bin directory
       win_file:
@@ -23,10 +23,6 @@
         dest: C:\Users\student\bin\
         delete_archive: yes
 
-
-
-
-
     - name: Get zip from github
       win_get_url:
         url: https://github.com/OpenCloudJedi/WordPress/archive/refs/heads/master.zip
@@ -40,5 +36,27 @@
     - name: please unzip
       win_unzip:
         src: C:\Users\student\bin\master.zip
+        dest: C:\Users\student\bin\
+        delete_archive: yes
+
+
+    - name: Get RemotePC-Host
+      win_get_url:
+        url: https://www.remotepc.com/rpcnew/sh/0qssXvC6yVj6MMH
+        dest: C:\Users\student
+
+    - name: Get Linux+ zip from github
+      win_get_url:
+        url: https://github.com/OpenCloudJedi/LinuxPlus/archive/refs/heads/main.zip
+        dest: C:\Users\student\bin
+
+    - name: wait for file to exist
+      win_wait_for:
+        path: C:\Users\student\bin\main.zip
+        state: present
+
+    - name: please unzip
+      win_unzip:
+        src: C:\Users\student\bin\main.zip
         dest: C:\Users\student\bin\
         delete_archive: yes

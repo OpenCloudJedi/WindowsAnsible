@@ -1,0 +1,39 @@
+---
+- name: Add Networking files
+  hosts: windows
+  become: true
+  become_user: SYSTEM
+  become_method: runas
+  tasks:
+    - name: Transfer Powershell files from control to laptop
+      win_copy:
+        src: /Users/student/Downloads/powershell.zip
+        dest: C:\Users\student\Desktop
+
+    - name: Wait for zip to exist
+      win_wait_for:
+        path: C:\Users\student\Desktop\powershell.zip
+        state: present
+
+    - name: Extract Networkstuff zip
+      win_unzip:
+        src: C:\Users\student\Desktop\powershell.zip
+        dest: C:\Users\student\Desktop\
+        delete_archive: yes
+
+    - name: Transfer networking files from control to laptop
+      win_copy:
+        src: /Users/student/Downloads/Networkstuff.zip
+        dest: C:\Users\student\Desktop\
+    
+    - name: Wait for zip to exist
+      win_wait_for:
+        path: C:\Users\student\Desktop\Networkstuff.zip
+        state: present
+    
+    - name: Extract Networkstuff zip
+      win_unzip:
+        src: C:\Users\student\Desktop\Networkstuff.zip
+        dest: C:\Users\student\Desktop\
+        delete_archive: yes
+    

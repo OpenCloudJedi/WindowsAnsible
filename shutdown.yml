@@ -1,0 +1,14 @@
+---
+- name: reboot all hosts
+  hosts: windows
+  gather_facts: false
+  ignore_errors: true
+  tasks:
+    - name: Shutdown hosts
+      win_command: shutdown /s
+    - name: Send completion message
+      say:
+        msg: The Machines have all powered off. Awaiting further instructions.
+        voice: Fred
+      delegate_to: localhost
+      tags: always
